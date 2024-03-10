@@ -3,21 +3,22 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const userSchema = new mongoose.Schema(
   {
-    fullName: {
-      type: String,
-      required: true,
-    },
-    profilePic: {
-      type: String,
-      required: true,
-    },
     email: {
+      unique: true,
       type: String,
       required: true,
     },
     password: {
       type: String,
       required: true,
+    },
+    fullName: {
+      type: String,
+      required: true,
+    },
+    phoneNumber: {
+      type: Number,
+      required: false,
     },
   },
   { timestamps: true }
@@ -38,7 +39,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 };
 
 userSchema.methods.generateAccessToken = async function () {
-    //yahan par jsonwebtoken that is jwt sign kiye gaye hain jiske ki login session maintain kar payen 
+  //yahan par jsonwebtoken that is jwt sign kiye gaye hain jiske ki login session maintain kar payen
   jwt.sign(
     {
       _id: this._id,
@@ -61,4 +62,14 @@ userSchema.methods.generateRefreshToken = async function () {
     }
   );
 };
+
+userSchema.virtual("allGroups", {
+  ref: "Group",
+  localField: "_id",
+  foreignField: "user",
+});
+
+userSchema.set("toObject", { virtuals: true });
+userSchema.set("toJSON", { virtuals: true });
+
 export const User = mongoose.model("User", userSchema); //mongoose mere liye ek model bana do User ke naam se on the basis of userSchema
