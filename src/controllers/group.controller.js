@@ -21,6 +21,7 @@ const group = async (req, res) => {
 };
 
 const groupAllExpenses = async (req, res) => {
+  //here _id is of the user
   try {
     const body = req.body;
     const data = await Group.findOne({ _id: body._id }).populate({

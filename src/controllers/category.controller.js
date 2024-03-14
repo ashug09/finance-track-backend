@@ -2,17 +2,19 @@ import { Category } from "../models/category.model.js";
 const category = async (req, res) => {
   try {
     const body = req.body;
-    const ifExist = await Category.findOne({ categoryName: body.categoryName });
+    const ifExist = await Category.findOne({
+      $and: [{ categoryName: body.categoryName }, { user: body.user }],
+    });
     if (ifExist) {
       res.status(401).json({
         message: `already existed category, make some new`,
       });
       return;
     }
-    const createdCategory = await Category.create(body);
-    console.log(createdCategory);
+    const data = await Category.create(body);
     res.status(201).json({
       message: `category created`,
+      data,
     });
   } catch (error) {
     res.status(400).json({
@@ -22,6 +24,7 @@ const category = async (req, res) => {
 };
 
 const allExpenses = async (req, res) => {
+  //it lists all the expenses under a specific category, here body._id is the id of catergory
   try {
     const body = req.body;
     const data = await Category.findOne({ _id: body._id }).populate({
@@ -34,4 +37,5 @@ const allExpenses = async (req, res) => {
     });
   }
 };
+
 export { category, allExpenses };

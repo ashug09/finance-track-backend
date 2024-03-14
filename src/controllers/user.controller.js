@@ -132,7 +132,9 @@ const logOut = (req, res) => {
     });
   }
 };
+
 const userAllGroups = async (req, res) => {
+  //all the groups under a specific user
   try {
     const body = req.body;
     const data = await User.findOne({ _id: body._id }).populate("allGroups");
@@ -143,4 +145,19 @@ const userAllGroups = async (req, res) => {
     });
   }
 };
-export { registerUser, userAllGroups, loginUser, logOut };
+
+const userAllCategories = async (req, res) => {
+  //it lists all the categories under a specific user, here body._id would be the id of the user
+  try {
+    const body = req.body;
+    const data = await User.findOne({ _id: body._id }).populate({
+      path: "allCategories",
+    });
+    res.status(200).json({ data });
+  } catch (error) {
+    res.status(400).json({
+      message: `error occured: ${error}`,
+    });
+  }
+};
+export { registerUser, userAllGroups, userAllCategories, loginUser, logOut };

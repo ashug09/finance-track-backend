@@ -69,6 +69,12 @@ userSchema.virtual("allGroups", {
   foreignField: "user",
 });
 
+userSchema.virtual("allCategories", {
+  ref: "Category",//child
+  localField: "_id",
+  foreignField: "user", //parent
+});
+
 userSchema.set("toObject", { virtuals: true });
 userSchema.set("toJSON", { virtuals: true });
 
