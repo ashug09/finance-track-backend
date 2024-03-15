@@ -52,14 +52,14 @@ const loginUser = async (req, res) => {
 
     const options = {
       httpOnly: true,
-      secure: true,
+      secure: false,
+      hostOnly: true,
+      sameSite:'strict',
+      maxAge: 10000 * 60 * 60 * 24
     };
-    res
-      .status(200)
-      .cookie("accessToken", accessToken, options)
-      .json({
-        message: `user found: ${finalUser + accessToken}`,
-      });
+    res.cookie("accessToken", accessToken, options).status(200).json({
+      finalUser,
+    });
   } catch (error) {
     res.status(400).json({
       message: `some error occured at loginUser: ${error}`,

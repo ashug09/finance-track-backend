@@ -4,7 +4,7 @@ import cors from "cors";
 const app = express();
 app.use(express.json({ limit: "16kb" }));
 app.use(urlencoded({ extended: true, limit: "16kb" }));
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: true, credentials: true })); //orgin matlab kahan se request ayegi or creditials are related to cookies
 app.use(cookieParser());
 app.use(express.static("public/temp"));
 
