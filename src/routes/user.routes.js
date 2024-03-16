@@ -12,5 +12,5 @@ router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 router.route("/logout").post(logOut);
 router.route("/allcategories").get(userAllCategories);
-allgroups.route("/allgroups").get(userAllGroups);
+allgroups.route("/allgroups").post(userAllGroups);
 export { router, allgroups };

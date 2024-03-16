@@ -19,9 +19,9 @@ const registerUser = async (req, res) => {
       fullName: body.fullName,
       phoneNumber: body.phoneNumber,
     });
-    console.log("this is user registered: " + user);
     res.status(201).json({
       messeage: "ok done, user registered",
+      user: user,
     });
   } catch (error) {
     res.status(500).json({
@@ -47,15 +47,15 @@ const loginUser = async (req, res) => {
       "-password -refreshToken"
     );
 
-    const accessToken = generateAccessToken(user._id);
+    const accessToken = generateAccessToken(user);
     // const refreshToken = generateRefreshToken(user._id);
 
     const options = {
       httpOnly: true,
       secure: false,
       hostOnly: true,
-      sameSite:'strict',
-      maxAge: 10000 * 60 * 60 * 24
+      sameSite: "strict",
+      maxAge: 10000 * 60 * 60 * 24,
     };
     res.cookie("accessToken", accessToken, options).status(200).json({
       finalUser,
@@ -68,11 +68,14 @@ const loginUser = async (req, res) => {
 };
 
 //generating access token is a part of logging in user
-const generateAccessToken = (userId) => {
+const generateAccessToken = (user) => {
   try {
     const accessToken = jwt.sign(
       {
-        _id: userId,
+        _id: user._id,
+        email: user.email,
+        fullName: user.fullName,
+        phoneNumber: user.phoneNumber,
       },
       process.env.ACCESS_TOKEN_SECRET,
       {
