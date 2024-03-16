@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 // import { Group } from "./group.model.js";
 // import { User } from "./user.model.js";
 const expenseSchema = mongoose.Schema({
+  expenseName: {
+    type: String,
+    required: true,
+  },
   amount: {
     type: Number,
     required: true,
@@ -20,5 +24,5 @@ const expenseSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-});
-export const Expense = mongoose.model("Expense", expenseSchema)
+}, {timestamps: true});
+export const Expense = mongoose.model("Expense", expenseSchema);

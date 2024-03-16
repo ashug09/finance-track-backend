@@ -11,6 +11,6 @@ const allgroups = Router();
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 router.route("/logout").post(logOut);
-router.route("/allcategories").get(userAllCategories);
+router.route("/allcategories").post(userAllCategories);
 allgroups.route("/allgroups").post(userAllGroups);
 export { router, allgroups };

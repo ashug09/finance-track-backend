@@ -4,5 +4,5 @@ import { Router } from "express";
 const categoryRouter = Router();
 const categoryAllExpenseRouter = Router();
 categoryRouter.route("/category").post(category);
-categoryAllExpenseRouter.route("/all_expenses").get(allExpenses);
+categoryAllExpenseRouter.route("/all_expenses").post(allExpenses);
 export { categoryRouter, categoryAllExpenseRouter };
