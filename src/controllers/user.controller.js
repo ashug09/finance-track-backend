@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
     // const refreshToken = generateRefreshToken(user._id);
 
     const options = {
-      httpOnly: true,
+      // httpOnly: true, //i have diabled this because i'm was unable to access cookies on the frontend
       secure: false,
       hostOnly: true,
       sameSite: "strict",
@@ -112,6 +112,22 @@ const generateAccessToken = (user) => {
 //   }
 // };
 
+const verifyToken = (req, res) => {
+  try {
+    const body = req.body;
+    const token = body.token;
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    if (!decodedToken)
+      return res.status(400).json({ message: `unauthorized token` });
+    res.status(200).json({
+      true: true,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: `some error occured at verifying token: ${error}`,
+    });
+  }
+};
 const logOut = (req, res) => {
   try {
     const token =
@@ -163,4 +179,11 @@ const userAllCategories = async (req, res) => {
     });
   }
 };
-export { registerUser, userAllGroups, userAllCategories, loginUser, logOut };
+export {
+  registerUser,
+  userAllGroups,
+  userAllCategories,
+  loginUser,
+  verifyToken,
+  logOut,
+};
